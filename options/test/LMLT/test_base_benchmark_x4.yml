@@ -1,0 +1,80 @@
+name: LMLT_Base_x4
+model_type: SRModel
+scale: 4
+num_gpu: 1  # set num_gpu: 0 for cpu mode
+manual_seed: 0
+
+datasets:
+  test_1:  # the 1st test dataset
+    name: GameImages
+    type: PairedImageDataset 
+    dataroot_lq: /raid/nlp/neha/GNR Kaggle/IE643-super-resolution-lmlt/lr
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+
+  # test_2:  # the 2nd test dataset
+  #   name: RealSR
+  #   type: PairedImageDataset
+  #   dataroot_gt: /kaggle/working/RealSR (ICCV2019)/realsr/Val/HR
+  #   dataroot_lq: /kaggle/working/RealSR (ICCV2019)/realsr/Val/X2
+  #   filename_tmpl: '{}x2'
+  #   io_backend:
+  #     type: disk
+
+  # test_3:  # the 2nd test dataset
+  #   name: Set14
+  #   type: PairedImageDataset
+  #   dataroot_gt: /kaggle/working/Set14/original
+  #   dataroot_lq: /kaggle/working/Set14/LRbicx2
+  #   filename_tmpl: '{}'
+  #   io_backend:
+  #     type: disk
+
+  # test_3:  # the 1st test dataset
+  #   name: B100
+  #   type: PairedImageDataset
+  #   dataroot_gt: /data/ECCV/SR/dataset_img/testsets/B100/HR
+  #   dataroot_lq: /data/ECCV/SR/dataset_img/testsets/B100/LR_bicubic/X2
+  #   filename_tmpl: '{}x2'
+  #   io_backend:
+  #     type: disk
+
+  # test_4:  # the 2nd test dataset
+  #   name: Urban100
+  #   type: PairedImageDataset
+  #   dataroot_gt: /kaggle/working/urban100/HR
+  #   dataroot_lq: /kaggle/working/urban100/LR_bicubic/X2
+  #   filename_tmpl: '{}x2'
+  #   io_backend:
+  #     type: disk
+
+# network structures
+network_g:
+  type: LMLT
+  dim: 60
+  n_blocks: 8
+  ffn_scale: 2.0
+  upscaling_factor: 4
+
+# path
+path:
+  pretrain_network_g: /raid/nlp/neha/GNR Kaggle/IE643-super-resolution-lmlt/experiments/LMLT_Base_DF2K_X2/models/net_g_latest.pth
+  strict_load_g: true
+
+# validation settings
+val:
+  save_img: true
+  suffix: ~  # add suffix to saved images, if None, use exp name
+  bic: true  
+
+  # metrics:
+  #   psnr: # metric name, can be arbitrary
+  #     type: calculate_psnr
+  #     crop_border: 2
+  #     test_y_channel: true
+  #   ssim:
+  #     type: calculate_ssim
+  #     crop_border: 2
+  #     test_y_channel: true
+      
