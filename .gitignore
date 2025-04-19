@@ -1,0 +1,7 @@
+*.png
+/lr
+*.csv
+/.eggs
+*.pyc
+*.log
+/tb_logger
